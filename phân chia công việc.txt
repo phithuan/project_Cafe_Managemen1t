@@ -1,0 +1,7 @@
+Model: Quản lý, xử lý dữ liệu. (TÀI)
+
+
+View: Hiển thị dữ liệu cho người dùng. (HUY)
+
+
+Controller: Điều khiển sự tương tác giữa Model và View. (THUẬN)

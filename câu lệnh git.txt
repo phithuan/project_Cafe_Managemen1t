@@ -1,0 +1,82 @@
+git clone (đường dẫn bên git )
+
+git init
+  
+                                      working directory (my code)
+git add .                             
+                                        staging area
+git commit -m "cmt"                      
+	                                  repository
+git push -u origin main
+                                        git local
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+câu lênh trong sourcetree
+
+khi nhấn commit xong phải cmt lệnh ''the first commit''
+second commit
+
+
+
+
+
+dotnet new console
