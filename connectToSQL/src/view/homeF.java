@@ -1,5 +1,8 @@
 package view;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class homeF extends javax.swing.JFrame {
 
@@ -36,6 +39,11 @@ public class homeF extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(204, 255, 255));
         jButton1.setText("STATISTISC");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 80, 220, 60));
 
         jButton2.setBackground(new java.awt.Color(51, 51, 51));
@@ -64,6 +72,11 @@ public class homeF extends javax.swing.JFrame {
         jButton4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButton4.setForeground(new java.awt.Color(204, 255, 255));
         jButton4.setText("VIEW ORDERS");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 230, 220, 60));
 
         jButton5.setBackground(new java.awt.Color(51, 51, 51));
@@ -81,6 +94,11 @@ public class homeF extends javax.swing.JFrame {
         jButton6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(204, 255, 255));
         jButton6.setText("ORDER");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 220, 60));
 
         jLabel2.setFont(new java.awt.Font("Segoe Print", 1, 24)); // NOI18N
@@ -117,16 +135,46 @@ public class homeF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            new AddProductF().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(homeF.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            new AllProductsF().setVisible(true);
+                    } catch (SQLException ex) {
+            Logger.getLogger(homeF.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            new ManageProductF().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(homeF.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        new OrderF().setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        new ViewOrderF().setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new StatisticsF().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

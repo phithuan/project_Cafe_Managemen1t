@@ -4,6 +4,16 @@
  */
 package view;
 
+import java.awt.Color;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import model.Caculate;
+import model.Dao;
+import view.OrderF;
+
 /**
  *
  * @author Admin
@@ -13,8 +23,38 @@ public class CartF extends javax.swing.JFrame {
     /**
      * Creates new form CardF
      */
+    int xx, xy, rowIndex;
+    Dao dao = new Dao();
+    DefaultTableModel model;
+    private double total = 0.0;
+    LocalDate currentDate = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-M-dd");
+    Caculate caculate = new Caculate();
+
     public CartF() {
         initComponents();
+        init();
+    }
+
+    private void init() {
+        jTextField1.setText(String.valueOf(dao.getMaxRowPaymantTable()));
+        jTextField4.setText(currentDate.format(formatter));
+        jTextField6.setText(String.valueOf(dao.subTotal()));
+        caculate.setSubtotal(Double.parseDouble(jTextField6.getText()));
+        jTextField5.setText(String.valueOf(caculate.getTax()));
+        jTextField7.setText(String.valueOf(caculate.getTotal()));
+        tableProcduct();
+    }
+    
+    private void tableProcduct() {
+        dao.getProductsFromCart(jTable1);
+        model = (DefaultTableModel) jTable1.getModel();
+        jTable1.setRowHeight(50); // chiều cao của mỗi hàng
+        jTable1.setShowGrid(true);
+        jTable1.setGridColor(Color.black);
+        jTable1.setBackground(Color.white);
+        jTable1.setSelectionBackground(Color.gray);
+        jTable1.setModel(model);
     }
 
     /**
@@ -49,8 +89,23 @@ public class CartF extends javax.swing.JFrame {
         jTextField10 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(156, 112, 79));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(153, 0, 0));
@@ -95,6 +150,7 @@ public class CartF extends javax.swing.JFrame {
 
         jLabel7.setText("Tax (VNĐ): ");
 
+        jTextField5.setEditable(false);
         jTextField5.setBackground(new java.awt.Color(204, 204, 204));
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,6 +160,7 @@ public class CartF extends javax.swing.JFrame {
 
         jLabel8.setText("Sub Total (VNĐ):");
 
+        jTextField6.setEditable(false);
         jTextField6.setBackground(new java.awt.Color(204, 204, 204));
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,6 +170,7 @@ public class CartF extends javax.swing.JFrame {
 
         jLabel9.setText("Total (VNĐ)");
 
+        jTextField7.setEditable(false);
         jTextField7.setBackground(new java.awt.Color(204, 204, 204));
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -292,6 +350,35 @@ public class CartF extends javax.swing.JFrame {
     private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField10ActionPerformed
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        // TODO add your handling code here:
+        xx = evt.getX();
+        xy = evt.getY();
+    }//GEN-LAST:event_jPanel1MousePressed
+
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+
+        this.setLocation(x - xx, y - xy);
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        /*for (double i = 0.1; i <= 1.0; i += 0.1) {
+            String s = "" + i;
+            float f = Float.parseFloat(s);
+            this.setOpacity(f);
+            try {
+                Thread.sleep(40);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CartF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }*/
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

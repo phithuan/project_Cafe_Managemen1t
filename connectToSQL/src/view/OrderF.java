@@ -261,8 +261,7 @@ public class OrderF extends javax.swing.JFrame {
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         // TODO add your handling code here:
-        xx = evt.getX();
-        xy = evt.getY();
+         
 
     }//GEN-LAST:event_jPanel1MousePressed
 

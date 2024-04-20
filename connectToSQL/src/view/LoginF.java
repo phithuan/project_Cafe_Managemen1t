@@ -294,7 +294,7 @@ public class LoginF extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here: làm cho có hiện ứng đẹp đồ đó
-        for (double i = 0.1; i <= 1.0; i += 0.1) {
+        /*for (double i = 0.1; i <= 1.0; i += 0.1) {
             String s = "" + i;
             float f = Float.parseFloat(s);
             this.setOpacity(f);
@@ -304,7 +304,7 @@ public class LoginF extends javax.swing.JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(LoginF.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }*/
     }//GEN-LAST:event_formWindowOpened
 
     public boolean isEmpty() {

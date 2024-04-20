@@ -142,4 +142,87 @@ public class Dao {
             return false;
         }
     }
+
+    public int getMaxRowPaymantTable() {
+        int row = 0;
+        try {
+            con = MyConnection.getConnection(); // Initialize the connection object
+            st = con.createStatement();
+            rs = st.executeQuery("SELECT MAX(pid) FROM payment");//Kết quả của truy vấn được lưu trong đối tượng rs (là một đối tượng của lớp ResultSet). Trong vòng lặp while, chúng ta lấy giá trị tối đa của cột id và gán cho biến row.
+            while (rs.next()) {//rs.next(): Phương thức này di chuyển con trỏ đến hàng tiếp theo trong
+                row = rs.getInt(1);//Trong vòng lặp, chúng ta sử dụng rs.getInt(1) để lấy giá trị của cột đầu tiên (cột id). Giá trị này được gán cho biến row.
+            }
+
+            //SQLException ex: Đây là đối tượng của lớp SQLException, chứa thông tin về lỗi xảy ra.
+        } catch (Exception ex) {//Trong đoạn mã trên, chúng ta sử dụng khối catch để xử lý ngoại lệ (exception) trong trường hợp có lỗi xảy ra khi thực hiện truy vấn SQL. Cụ thể:
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);// Dòng này ghi log lỗi (error log) bằng cách sử dụng Logger. Nó sẽ hiển thị thông báo lỗi và stack trace (danh sách các phương thức đã gọi) trong console hoặc file log.
+        }
+        return row + 1;
+    }
+
+    public int getMaxRowCartTable() {
+        int row = 0;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("SELECT MAX(cid) FROM cart");//Kết quả của truy vấn được lưu trong đối tượng rs (là một đối tượng của lớp ResultSet). Trong vòng lặp while, chúng ta lấy giá trị tối đa của cột id và gán cho biến row.
+            while (rs.next()) {//rs.next(): Phương thức này di chuyển con trỏ đến hàng tiếp theo trong
+                row = rs.getInt(1);//Trong vòng lặp, chúng ta sử dụng rs.getInt(1) để lấy giá trị của cột đầu tiên (cột id). Giá trị này được gán cho biến row.
+            }
+
+            //SQLException ex: Đây là đối tượng của lớp SQLException, chứa thông tin về lỗi xảy ra.
+        } catch (Exception ex) {//Trong đoạn mã trên, chúng ta sử dụng khối catch để xử lý ngoại lệ (exception) trong trường hợp có lỗi xảy ra khi thực hiện truy vấn SQL. Cụ thể:
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);// Dòng này ghi log lỗi (error log) bằng cách sử dụng Logger. Nó sẽ hiển thị thông báo lỗi và stack trace (danh sách các phương thức đã gọi) trong console hoặc file log.
+        }
+        return row;
+    }
+
+    public double subTotal() {
+        double subTotal = 0.0;
+        int cid = getMaxRowCartTable();
+
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("select sum(total) as 'total' from cart where cid = '" + cid + "'");
+            if (rs.next()) {
+                subTotal = rs.getDouble(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subTotal;
+    }
+    
+    public void getProductsFromCart(JTable table) {
+        int cid = getMaxRowCartTable();
+        String sql = "SELECT * FROM cart where cid = ?";
+        try {
+            con = MyConnection.getConnection(); // Khởi tạo đối tượng Connection
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cid);
+            rs = ps.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            Object[] row;
+
+            while (rs.next()) {
+                row = new Object[6];
+                row[0] = rs.getInt(1);
+                row[1] = rs.getInt(2);
+                row[2] = rs.getString(3);
+                row[3] = rs.getInt(4);
+                row[4] = rs.getDouble(5);
+                row[5] = rs.getDouble(6);
+
+                model.addRow(row); // Thêm dòng vào mô hình của bảng
+
+            }
+
+            model.fireTableDataChanged(); // Cập nhật mô hình của bảng
+
+        } catch (Exception ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -185,7 +185,7 @@ public class AddProductF extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        for (double i = 0.1; i <= 1.0; i += 0.1) {
+        /*for (double i = 0.1; i <= 1.0; i += 0.1) {
             String s = "" + i;
             float f = Float.parseFloat(s);
             this.setOpacity(f);
@@ -195,7 +195,7 @@ public class AddProductF extends javax.swing.JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(AddProductF.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }*/
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
