@@ -5,13 +5,18 @@
 package view;
 
 import java.awt.Color;
+import java.awt.print.PrinterException;
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Caculate;
 import model.Dao;
+import model.Payment;
 import view.OrderF;
 
 /**
@@ -45,7 +50,7 @@ public class CartF extends javax.swing.JFrame {
         jTextField7.setText(String.valueOf(caculate.getTotal()));
         tableProcduct();
     }
-    
+
     private void tableProcduct() {
         dao.getProductsFromCart(jTable1);
         model = (DefaultTableModel) jTable1.getModel();
@@ -138,6 +143,11 @@ public class CartF extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jButton2.setText("payment");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Payment Date:");
 
@@ -195,6 +205,11 @@ public class CartF extends javax.swing.JFrame {
                 jTextField9ActionPerformed(evt);
             }
         });
+        jTextField9.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField9KeyReleased(evt);
+            }
+        });
 
         jLabel12.setText("Change (VNĐ):");
 
@@ -202,6 +217,14 @@ public class CartF extends javax.swing.JFrame {
         jTextField10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField10ActionPerformed(evt);
+            }
+        });
+        jTextField10.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField10KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField10KeyReleased(evt);
             }
         });
 
@@ -379,6 +402,94 @@ public class CartF extends javax.swing.JFrame {
             }
         }*/
     }//GEN-LAST:event_formWindowOpened
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:pay
+        model = (DefaultTableModel) jTable1.getModel();
+        String proName = "";
+        String proId = "";
+        for (int i = 0; i < model.getRowCount(); i++) {
+            proId += model.getValueAt(i, 1).toString() + ", ";
+            proName += model.getValueAt(i, 2).toString() + ", ";
+        }
+        int pid = dao.getMaxRowCartTable() + 1;
+        String cName = jTextField8.getText().trim();
+        double t = Double.parseDouble(jTextField7.getText().trim());
+
+        Payment payment = new Payment();
+        payment.setPid(pid);
+        payment.setcName(cName);
+        payment.setProId(proId);
+        payment.setProName(proName);
+        payment.setTotal(t);
+        payment.setDate(jTextField4.getText().trim());
+        if (check()) {
+            if (dao.insertPayment(payment)) {
+                JOptionPane.showMessageDialog(this, "Payment Succeed !");
+                int cid = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+                dao.deleteCart(cid);
+                int x = JOptionPane.showConfirmDialog(this, "Do you want to print the receipt ?", "Print", JOptionPane.YES_NO_OPTION, 0);
+                if (x == JOptionPane.YES_OPTION) {
+                    try {
+                        MessageFormat header = new MessageFormat("***HTT CAFFEE***" + "Customer Name: " + cName + "  " + "Total (VNĐ): " + t);
+                        MessageFormat footer = new MessageFormat("Page{0,number,integer}");
+
+                        jTable1.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+                        setVisible(false);
+                    } catch (PrinterException ex) {
+                        JOptionPane.showConfirmDialog(null, ex.getMessage());
+                    }
+                } else {
+                    setVisible(false);
+                }
+            } else {
+                JOptionPane.showConfirmDialog(this, "Payment failed..", "Warning", 2);
+            }
+
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField10KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField10KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField10KeyPressed
+
+    private void jTextField10KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField10KeyReleased
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jTextField10KeyReleased
+
+    private void jTextField9KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField9KeyReleased
+        // TODO add your handling code here:
+        cash();
+    }//GEN-LAST:event_jTextField9KeyReleased
+
+    public void cash() {
+        try {
+            double cash = Double.parseDouble(jTextField9.getText().trim());
+            double total = Double.parseDouble(jTextField7.getText().trim());
+            double change = (cash - total);
+            jTextField10.setText(String.valueOf(change));
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(this, "Not enough cash entered", "waring", 2);
+        }
+    }
+
+    public boolean check() {
+        if (jTextField8.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Customer name is required", "Warning", 2);
+            return false;
+        }
+        if (jTextField9.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Cash is required", "Warning", 2);
+            return false;
+        }
+        double change = Double.parseDouble(jTextField10.getText().trim());
+        if (change < 0.0) {
+            JOptionPane.showMessageDialog(this, "Not enough cashs entered", "Warning", 2);
+            return false;
+        }
+        return true;
+    }
 
     /**
      * @param args the command line arguments

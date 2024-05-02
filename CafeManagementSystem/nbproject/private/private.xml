@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/project_Cafe_Managemen1t/connectToSQL/src/view/CartF.java</file>
-            <file>file:/D:/project_Cafe_Managemen1t/connectToSQL/src/view/LoginF.java</file>
-            <file>file:/D:/project_Cafe_Managemen1t/connectToSQL/src/view/AddProductF.java</file>
+            <file>file:/D:/project_Cafe_Managemen1t/CafeManagementSystem/src/view/ManageProductF.java</file>
+            <file>file:/D:/project_Cafe_Managemen1t/CafeManagementSystem/src/view/AddProductF.java</file>
+            <file>file:/D:/project_Cafe_Managemen1t/CafeManagementSystem/src/model/Dao.java</file>
         </group>
     </open-files>
 </project-private>

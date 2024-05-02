@@ -56,6 +56,7 @@ public class Dao {
                 row[1] = rs.getString(2);
                 row[2] = rs.getDouble(3);
                 row[3] = rs.getBytes(4);
+                
 
                 model.addRow(row); // Thêm dòng vào mô hình của bảng
 
@@ -223,6 +224,36 @@ public class Dao {
 
         } catch (Exception ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     public boolean insertPayment(Payment payment) {
+        String sql = "insert into payment (pid, cName, proid, pName, total, pdate) values(?,?,?,?,?,?)";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, payment.getPid());
+            ps.setString(2, payment.getcName());
+            ps.setString(3, payment.getProId());
+            ps.setString(4, payment.getProName());
+            ps.setDouble(5, payment.getTotal());
+            ps.setString(6, payment.getDate());
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+     
+     public boolean deleteCart(int cid) {
+        String sql = "delete from cart where cid = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cid);
+            return ps.executeUpdate() > 0;
+        } catch (Exception ex) {
+            return false;
         }
     }
 }
