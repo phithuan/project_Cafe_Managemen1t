@@ -4,6 +4,15 @@
  */
 package view;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Admin;
+import model.AdminDao;
+import model.Dao;
+
 /**
  *
  * @author Admin
@@ -13,9 +22,26 @@ public class StatisticsF extends javax.swing.JFrame {
     /**
      * Creates new form Statistics
      */
-    public StatisticsF() {
+    LocalDate currentDate = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-M-dd");
+    Dao dao = new Dao();
+    AdminDao adminDao = new AdminDao();
+    
+    String date = currentDate.format(formatter);
+
+    public StatisticsF() throws SQLException{
         initComponents();
+        init(); 
     }
+    
+    public void init(){
+    int totalProducts = dao.totalProducts();
+    jLabel2.setText(String.valueOf(totalProducts));
+    jLabel4.setText(String.valueOf(dao.todayRevenue(date)));
+    jLabel3.setText(String.valueOf(dao.totalRevenue()));
+    jLabel6.setText(String.valueOf(adminDao.getMaxRowAdminTable() -1));
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -45,6 +71,11 @@ public class StatisticsF extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(156, 112, 79));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(153, 0, 0));
@@ -66,7 +97,7 @@ public class StatisticsF extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Total Revenue");
+        jLabel9.setText("Today Revenue");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -233,41 +264,11 @@ public class StatisticsF extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_jLabel5MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StatisticsF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StatisticsF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StatisticsF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StatisticsF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        // TODO add your handling code her
+    }//GEN-LAST:event_jPanel1MousePressed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StatisticsF().setVisible(true);
-            }
-        });
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

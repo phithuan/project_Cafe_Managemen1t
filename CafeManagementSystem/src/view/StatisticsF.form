@@ -39,6 +39,9 @@
           <Color blue="4f" green="70" red="9c" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel1MousePressed"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -153,7 +156,7 @@
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Total Revenue"/>
+                <Property name="text" type="java.lang.String" value="Today Revenue"/>
               </Properties>
             </Component>
           </SubComponents>

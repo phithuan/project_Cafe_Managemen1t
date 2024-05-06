@@ -1,13 +1,17 @@
 package view;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class homeF extends javax.swing.JFrame {
 
     public homeF() {
         initComponents();
+        setDatetime();
     }
 
     /**
@@ -29,9 +33,11 @@ public class homeF extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3_time = new javax.swing.JLabel();
         jLabel3_time1 = new javax.swing.JLabel();
+        jLabel3_time2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -109,12 +115,17 @@ public class homeF extends javax.swing.JFrame {
         jLabel3_time.setFont(new java.awt.Font("Myanmar Text", 1, 18)); // NOI18N
         jLabel3_time.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3_time.setText("pm");
-        jPanel1.add(jLabel3_time, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 70, 50, -1));
+        jPanel1.add(jLabel3_time, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 50, -1));
 
         jLabel3_time1.setFont(new java.awt.Font("Myanmar Text", 1, 18)); // NOI18N
         jLabel3_time1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3_time1.setText("00:00:00");
-        jPanel1.add(jLabel3_time1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 70, 80, -1));
+        jPanel1.add(jLabel3_time1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 80, -1));
+
+        jLabel3_time2.setFont(new java.awt.Font("Myanmar Text", 1, 18)); // NOI18N
+        jLabel3_time2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3_time2.setText("mon, 12-09-2004");
+        jPanel1.add(jLabel3_time2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 180, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/anhnencoffee.jpg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 540));
@@ -147,7 +158,7 @@ public class homeF extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             new AllProductsF().setVisible(true);
-                    } catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(homeF.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -172,45 +183,36 @@ public class homeF extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        new StatisticsF().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new StatisticsF().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(homeF.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void setDatetime() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                    Date date = new Date();
+                    SimpleDateFormat tf = new SimpleDateFormat("h:mm:ss aa");
+                    SimpleDateFormat df = new SimpleDateFormat("EEEE, yyyy-MM-dd");
+                    String time = tf.format(date);
+                    jLabel3_time1.setText(time.split(" ")[0]);
+                    jLabel3_time.setText(time.split(" ")[1]);
+                    jLabel3_time2.setText(df.format(date));
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(homeF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(homeF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(homeF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(homeF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new homeF().setVisible(true);
-            }
-        });
+        }).start();
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -223,6 +225,7 @@ public class homeF extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3_time;
     private javax.swing.JLabel jLabel3_time1;
+    private javax.swing.JLabel jLabel3_time2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
