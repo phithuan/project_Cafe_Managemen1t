@@ -36,7 +36,7 @@ public class OrderF extends javax.swing.JFrame {
     public OrderF() {
         initComponents();
         tableProcduct();
-        jTextField1.setText(String.valueOf(dao.getMaxRowOrderTable()));
+        jTextField1.setText(String.valueOf(dao.getMaxRowPaymantTable()));
     }
 
     private void tableProcduct() {
@@ -261,7 +261,7 @@ public class OrderF extends javax.swing.JFrame {
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         // TODO add your handling code here:
-         
+
 
     }//GEN-LAST:event_jPanel1MousePressed
 
@@ -296,13 +296,13 @@ public class OrderF extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         if (jTextField2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Pleases select a product", "warning", 2);
         } else if (jTextField3.getText().isEmpty() || jTextField3.getText().equals("0")) {
             JOptionPane.showMessageDialog(this, "Product quantity is required", "Warning", 2);
+        } else if (Integer.parseInt(jTextField3.getText().trim()) <= 0) {
+            JOptionPane.showMessageDialog(this, "Product quantity must be greater than 0", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-
             try {
                 model = (DefaultTableModel) jTable1.getModel();
                 int cid = Integer.parseInt(jTextField1.getText().trim());
@@ -333,7 +333,6 @@ public class OrderF extends javax.swing.JFrame {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "" + e, "Warning", 2);
             }
-
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -344,16 +343,17 @@ public class OrderF extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2MouseClicked
-    
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                      
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        if(total != 0.0) {
-            new CartF () .setVisible (true) ;
-            setVisible (false) ;
-        }else{
+        if (total != 0.0) {
+            new CartF().setVisible(true);
+            setVisible(false);
+        } else {
             JOptionPane.showMessageDialog(this, "You haven't purchased any product", "Warning", 2);
         }
     }
+
     private void clear() {
         jTextField2.setText(null);
         jTextField3.setText("0");

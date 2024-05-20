@@ -174,6 +174,7 @@ public class Dao {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);// Dòng này ghi log lỗi (error log) bằng cách sử dụng Logger. Nó sẽ hiển thị thông báo lỗi và stack trace (danh sách các phương thức đã gọi) trong console hoặc file log.
         }
         return row;
+
     }
 
     public double subTotal() {
@@ -269,13 +270,13 @@ public class Dao {
             Object[] row;
 
             while (rs.next()) {
-                row = new Object[6];
+                row = new Object[5];
                 row[0] = rs.getInt(1);
                 row[1] = rs.getString(2);
-                row[2] = rs.getString(3);
-                row[3] = rs.getString(4);
-                row[4] = rs.getDouble(5);
-                row[5] = rs.getString(6);
+                //row[2] = rs.getString(3);
+                row[2] = rs.getString(4);
+                row[3] = rs.getDouble(5);
+                row[4] = rs.getString(6);
 
                 model.addRow(row); // Thêm dòng vào mô hình của bảng
 
@@ -284,6 +285,38 @@ public class Dao {
             model.fireTableDataChanged(); // Cập nhật mô hình của bảng
 
         } catch (Exception ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void Search_getPaymentDetails(JTable table, String name) {
+        String sql = "SELECT * FROM payment WHERE cName = ? ORDER BY pid DESC";
+        try {
+            con = MyConnection.getConnection(); // Khởi tạo đối tượng Connection
+            ps = con.prepareStatement(sql);
+            ps.setString(1, name); // Truyền tham số vào câu lệnh chuẩn bị
+            rs = ps.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            model.setRowCount(0); // Xóa tất cả các dòng trước khi thêm mới
+
+            Object[] row;
+
+            while (rs.next()) {
+                row = new Object[5];
+                row[0] = rs.getInt(1);
+                row[1] = rs.getString(2);
+                //row[2] = rs.getString(3);
+                row[2] = rs.getString(4);
+                row[3] = rs.getDouble(5);
+                row[4] = rs.getString(6);
+
+                model.addRow(row); // Thêm dòng vào mô hình của bảng
+            }
+
+            model.fireTableDataChanged(); // Cập nhật mô hình của bảng
+
+        } catch (SQLException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -303,8 +336,6 @@ public class Dao {
         }
         return total;
     }
-    
-
 
     public double todayRevenue(String date) {
         double total = 0.0;
@@ -320,9 +351,8 @@ public class Dao {
         }
         return total;
     }
-    
-    
-      public double totalRevenue() {
+
+    public double totalRevenue() {
         double total = 0.0;
         try {
             con = MyConnection.getConnection(); // Khởi tạo kết nối
